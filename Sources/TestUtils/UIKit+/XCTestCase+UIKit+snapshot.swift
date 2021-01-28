@@ -71,11 +71,6 @@
         return data
     }
 
-    public extension UIViewController {
-        func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
-            SnapshotWindow(configuration: configuration, root: self).snapshot()
-        }
-    }
 
     public struct SnapshotConfiguration {
         let traitCollection: UITraitCollection
@@ -109,4 +104,16 @@
             }
         }
     }
+public extension UIViewController {
+    func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
+        SnapshotWindow(configuration: configuration, root: self).snapshot()
+    }
+}
+public extension UIView {
+    func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
+        let root = UIViewController()
+        root.view = self
+        return SnapshotWindow(configuration: configuration, root: root).snapshot()
+    }
+}
 #endif
