@@ -44,8 +44,11 @@
                 at: snapshotURL.deletingLastPathComponent(),
                 withIntermediateDirectories: true
             )
+            guard let snapshotData = snapshotData else {
+                return
+            }
 
-            try snapshotData?.write(to: snapshotURL)
+            try snapshotData.write(to: snapshotURL)
             #if DEBUG
                 XCTFail("Successfully save image snapshot, replace with assert to pass assertion\npath: \(snapshotURL)", file: file, line: line)
             #endif
