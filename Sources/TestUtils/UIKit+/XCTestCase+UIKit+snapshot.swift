@@ -35,7 +35,7 @@
         }
     }
 
-    public func XCTRecord(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
+public func XCTRecord(snapshot: UIImage, named name: String, remindAssert: Bool = true, file: StaticString = #file, line: UInt = #line) {
         let snapshotURL = makeSnapshotURL(named: name, file: file)
         let snapshotData = makeSnapshotData(for: snapshot, file: file, line: line)
 
@@ -49,9 +49,9 @@
             }
 
             try snapshotData.write(to: snapshotURL)
-            #if DEBUG
+            if remindAssert {
                 XCTFail("Successfully save image snapshot, replace with assert to pass assertion\npath: \(snapshotURL)", file: file, line: line)
-            #endif
+            }
         } catch {
             XCTFail("Failed to record snapshot with error: \(error)", file: file, line: line)
         }
