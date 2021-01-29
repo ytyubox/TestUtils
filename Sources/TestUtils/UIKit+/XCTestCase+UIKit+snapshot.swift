@@ -35,8 +35,12 @@
         }
     }
 
-public func XCTRecord(snapshot: UIImage, named name: String, remindAssert: Bool = true, file: StaticString = #file, line: UInt = #line) {
-        let snapshotURL = makeSnapshotURL(named: name, file: file)
+    public func XCTDemoSkip(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
+        XCTRecord(snapshot: snapshot, named: name, ignorePrefix: "SKIP-", file: file, line: line)
+    }
+    public func XCTRecord(snapshot: UIImage, named name: String, ignorePrefix: String? = nil, file: StaticString = #file, line: UInt = #line) {
+        let namePrefix = ignorePrefix ?? ""
+        let snapshotURL = makeSnapshotURL(named: namePrefix + name, file: file)
         let snapshotData = makeSnapshotData(for: snapshot, file: file, line: line)
 
         do {
@@ -49,7 +53,7 @@ public func XCTRecord(snapshot: UIImage, named name: String, remindAssert: Bool 
             }
 
             try snapshotData.write(to: snapshotURL)
-            if remindAssert {
+            if ignorePrefix  == nil {
                 XCTFail("Successfully save image snapshot, replace with assert to pass assertion\npath: \(snapshotURL)", file: file, line: line)
             }
         } catch {
@@ -73,7 +77,6 @@ public func XCTRecord(snapshot: UIImage, named name: String, remindAssert: Bool 
 
         return data
     }
-
 
     public struct SnapshotConfiguration {
         let traitCollection: UITraitCollection
@@ -107,16 +110,18 @@ public func XCTRecord(snapshot: UIImage, named name: String, remindAssert: Bool 
             }
         }
     }
-public extension UIViewController {
-    func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
-        SnapshotWindow(configuration: configuration, root: self).snapshot()
+
+    public extension UIViewController {
+        func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
+            SnapshotWindow(configuration: configuration, root: self).snapshot()
+        }
     }
-}
-public extension UIView {
-    func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
-        let root = UIViewController()
-        root.view = self
-        return SnapshotWindow(configuration: configuration, root: root).snapshot()
+
+    public extension UIView {
+        func snapshot(for configuration: SnapshotConfiguration) -> UIImage {
+            let root = UIViewController()
+            root.view = self
+            return SnapshotWindow(configuration: configuration, root: root).snapshot()
+        }
     }
-}
 #endif
