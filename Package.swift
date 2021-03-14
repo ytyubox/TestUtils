@@ -15,11 +15,12 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(url: "https://github.com/devicekit/DeviceKit.git", from: "4.0.0"),
     ],
     targets: [
         .target(
             name: "TestUtils",
-            dependencies: []
+            dependencies: ["DeviceKit"]
         ),
         .testTarget(
             name: "TestUtilsTests",

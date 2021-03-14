@@ -65,8 +65,8 @@
         URL(fileURLWithPath: String(describing: file))
             .deletingLastPathComponent()
             .appendingPathComponent("snapshots")
-            .appendingPathComponent("\(Device.type.rawValue)")
-            .appendingPathComponent("\(name)-\(Device.type).png")
+            .appendingPathComponent("\(Device.current)")
+            .appendingPathComponent("\(name)-\(Device.current).png")
     }
 
     private func makeSnapshotData(for snapshot: UIImage, file: StaticString, line: UInt) -> Data? {
@@ -81,9 +81,10 @@
     public struct SnapshotConfiguration {
         let traitCollection: UITraitCollection
 
-        public init(style: UIUserInterfaceStyle) {
+        public init(style: UIUserInterfaceStyle, contentSize: UIContentSizeCategory = .medium) {
             traitCollection = UITraitCollection(traitsFrom: [
                 UITraitCollection(userInterfaceStyle: style),
+                UITraitCollection(preferredContentSizeCategory: contentSize),
             ]
             )
         }
