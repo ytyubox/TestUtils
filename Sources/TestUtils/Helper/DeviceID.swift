@@ -6,9 +6,6 @@
  *
  *		Running on macOS 10.15
  */
-#if !os(macOS)
 import DeviceKit
 
 typealias Device = DeviceKit.Device
-
-#endif

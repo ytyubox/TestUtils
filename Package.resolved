@@ -3,11 +3,20 @@
     "pins": [
       {
         "package": "DeviceKit",
-        "repositoryURL": "https://github.com/devicekit/DeviceKit.git",
+        "repositoryURL": "https://github.com/ytyubox/DeviceKit.git",
         "state": {
-          "branch": null,
-          "revision": "4cf9f057db69104851634269f7839f8d0bd346a3",
-          "version": "4.3.0"
+          "branch": "custom",
+          "revision": "72610aed83e45c7ba9c05da25ca46c2e8dfd33b6",
+          "version": null
+        }
+      },
+      {
+        "package": "Difference",
+        "repositoryURL": "https://github.com/krzysztofzablocki/Difference.git",
+        "state": {
+          "branch": "master",
+          "revision": "6b121174e4a4bfed28ef8bb725156fac6e7c12bc",
+          "version": null
         }
       }
     ]

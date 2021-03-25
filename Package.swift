@@ -7,6 +7,7 @@ let package = Package(
     name: "TestUtils",
     platforms: [
         .iOS(.v12),
+        .macOS(.v10_12),
     ],
     products: [
         .library(
@@ -15,12 +16,13 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/devicekit/DeviceKit.git", from: "4.0.0"),
+        .package(url: "https://github.com/ytyubox/DeviceKit.git", .branch("custom")),
+        .package(url: "https://github.com/krzysztofzablocki/Difference.git", .branch("master")),
     ],
     targets: [
         .target(
             name: "TestUtils",
-            dependencies: ["DeviceKit"]
+            dependencies: ["DeviceKit", "Difference"]
         ),
         .testTarget(
             name: "TestUtilsTests",
