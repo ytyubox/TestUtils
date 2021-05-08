@@ -10,6 +10,12 @@
 #if canImport(XCTest) && canImport(UIKit)
     import UIKit
     import XCTest
+    @available(*, unavailable, message: "this method now required diffColor, please use  XCTAssert(snapshot:,named, diffColor:)")
+    public func XCTAssert(
+        snapshot: UIImage,
+        named name: String,
+        file: StaticString = #file, line: UInt = #line
+    ) { fatalError() }
     public func XCTAssert(
         snapshot: UIImage,
         named name: String,
@@ -54,6 +60,15 @@
 
     public func XCTDemoSkip(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
         XCTRecord(snapshot: snapshot, named: name, diffColor: .red, ignorePrefix: "SKIP-", file: file, line: line)
+    }
+
+    @available(*, unavailable, message: "this method now required diffColor, please use  XCTRecord(snapshot:,named, diffColor:)")
+    public func XCTRecord(
+        snapshot: UIImage,
+        named name: String,
+        ignorePrefix: String? = nil, file: StaticString = #file, line: UInt = #line
+    ) {
+        fatalError()
     }
 
     public func XCTRecord(
