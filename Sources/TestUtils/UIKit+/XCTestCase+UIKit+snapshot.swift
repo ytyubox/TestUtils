@@ -10,7 +10,12 @@
 #if canImport(XCTest) && canImport(UIKit)
     import UIKit
     import XCTest
-    public func XCTAssert(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
+    public func XCTAssert(
+        snapshot: UIImage,
+        named name: String,
+        diffColor: RGBAColor,
+        file: StaticString = #file, line: UInt = #line
+    ) {
         let snapshotURL = makeSnapshotURL(named: name, file: file)
         let snapshotData = makeSnapshotData(for: snapshot, file: file, line: line)
 
@@ -22,8 +27,18 @@
         if snapshotData != storedSnapshotData {
             let temporarySnapshotURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
                 .appendingPathComponent("Unexpected-" + snapshotURL.lastPathComponent)
+            let temporaryDiffSnapshotURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                .appendingPathComponent("Diff-" + snapshotURL.lastPathComponent)
 
+            let storedSnapshot = UIImage(data: storedSnapshotData)!
+            let snapShotDiff = try! XCTImageDiff(
+                image1: storedSnapshot,
+                image2: snapshot,
+                diffColor: diffColor
+            )
             try? snapshotData?.write(to: temporarySnapshotURL)
+            let snapshotDiffData = makeSnapshotData(for: snapShotDiff, file: file, line: line)
+            try? snapshotDiffData?.write(to: temporaryDiffSnapshotURL)
 
             XCTFail("""
             New snapshot does not match stored snapshot.
@@ -31,14 +46,22 @@
             \(snapshotURL)
             receieved snapshot URL:
             \(temporarySnapshotURL),
+            diff snapshot URL:
+            \(temporaryDiffSnapshotURL)
             """, file: file, line: line)
         }
     }
 
     public func XCTDemoSkip(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
-        XCTRecord(snapshot: snapshot, named: name, ignorePrefix: "SKIP-", file: file, line: line)
+        XCTRecord(snapshot: snapshot, named: name, diffColor: .red, ignorePrefix: "SKIP-", file: file, line: line)
     }
-    public func XCTRecord(snapshot: UIImage, named name: String, ignorePrefix: String? = nil, file: StaticString = #file, line: UInt = #line) {
+
+    public func XCTRecord(
+        snapshot: UIImage,
+        named name: String,
+        diffColor: RGBAColor,
+        ignorePrefix: String? = nil, file: StaticString = #file, line: UInt = #line
+    ) {
         let namePrefix = ignorePrefix ?? ""
         let snapshotURL = makeSnapshotURL(named: namePrefix + name, file: file)
         let snapshotData = makeSnapshotData(for: snapshot, file: file, line: line)
@@ -53,7 +76,7 @@
             }
 
             try snapshotData.write(to: snapshotURL)
-            if ignorePrefix  == nil {
+            if ignorePrefix == nil {
                 XCTFail("Successfully save image snapshot, replace with assert to pass assertion\npath: \(snapshotURL)", file: file, line: line)
             }
         } catch {
