@@ -16,7 +16,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/ytyubox/DeviceKit.git", .branch("custom")),
+        .package(url: "https://github.com/ytyubox/DeviceKit.git", from :"4.4.1"),
         .package(url: "https://github.com/krzysztofzablocki/Difference.git", .branch("master")),
     ],
     targets: [

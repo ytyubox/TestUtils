@@ -5,9 +5,9 @@
         "package": "DeviceKit",
         "repositoryURL": "https://github.com/ytyubox/DeviceKit.git",
         "state": {
-          "branch": "custom",
-          "revision": "72610aed83e45c7ba9c05da25ca46c2e8dfd33b6",
-          "version": null
+          "branch": null,
+          "revision": "e5b8c37fcab38d0a2c43a551fe9edf122b40b293",
+          "version": "4.4.1"
         }
       },
       {
