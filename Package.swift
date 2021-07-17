@@ -14,6 +14,10 @@ let package = Package(
             name: "TestUtils", type: .dynamic,
             targets: ["TestUtils"]
         ),
+        .library(
+            name: "TestUtilsLinux", type: .dynamic,
+            targets: ["TestUtils"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/ytyubox/DeviceKit.git", from: "4.4.1"),
@@ -23,6 +27,10 @@ let package = Package(
         .target(
             name: "TestUtils",
             dependencies: ["DeviceKit", "Difference"]
+        ),
+        .target(
+            name: "TestUtilsLinux",
+            dependencies: ["Difference"]
         ),
         .testTarget(
             name: "TestUtilsTests",
